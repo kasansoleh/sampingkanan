@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('bills', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('contact_id')->constrained()->cascadeOnDelete();
+            $table->string('bill_number')->unique();
+            $table->date('date');
+            $table->date('due_date');
+            $table->string('status')->default('draft');
+            $table->decimal('total', 15, 2)->default(0);
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('bills');
+    }
+};
